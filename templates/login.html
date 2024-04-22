@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - Авторизация</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="all_center bg-black">
+    <span class="absolute_logo">neact</span>
+    <div class="login-container">
+        <span class="small_text">вход в учетную запись</span>
+        <form action="" class="auth-form" method="post">
+            {{ form.csrf_token }}
+            {{ form.username(class="input-default", type="username", placeholder="логин") }}
+            {{ form.password(class="input-default", type="password", placeholder="пароль") }}
+            <div class="wrong_message_text">{{ message }}</div>
+            {{ form.submit(type="submit", class="btn-auth") }}
+        </form>
+        <a class="btn-to-register" href="/register">нет аккаунта</a>
+
+    </div>
+</div>
+{% endblock %}

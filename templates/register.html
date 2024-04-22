@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - Регистрация</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="all_center bg-black">
+    <span class="absolute_logo">neact</span>
+    <div class="login-container">
+
+        <span class="small_text">регистрация нового аккаунта</span>
+        <form action="" class="auth-form" method="post">
+            
+            {{ form.email(class="input-default", type="e-mail", placeholder='e-mail') }}
+            {{ form.username(class="input-default", type="username", placeholder='логин') }}
+            {{ form.password(class="input-default", type="password", placeholder='пароль') }}
+            <div class="wrong_message_text">{{ message }}</div>
+            {{ form.submit(type="submit", class="btn-register") }}
+        </form>
+        <a class="btn-to-auth" href="/login">уже есть аккаунт</a>
+
+    </div>
+</div>
+{% endblock %}

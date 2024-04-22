@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - заказы</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="page_content">
+    <nav class="navbar">
+        <h1>neact</h1>
+        <span class="links_content">
+            <a class="my_profile" href="{{ url_for('profile.load_profile', user_id=current_user.id) }}">{{ current_user.username }}</a>
+        </span>
+    </nav>
+    
+    <div class="cont-bg-dark">
+        <a class="btn-dark add_task" href="tasks/add">создать заказ</a>
+    
+        <p class="text-big">Доступные заказы прямо сейчас</p>
+    
+        {% for i in tasks %}
+        <div class="task_content">
+            <div class="task_content_info">
+                <span class="title_text">{{ i.title }}</span>
+                <span class="description_text">{{ i.description }}</span>
+                <span class="date_author">{{ i.date }} - {{ i.author_username }}</span>
+            </div>
+    
+            <div class="task_content_actions">
+                <a class="btn-some-green">{{ i.price }} руб.</a>
+                <a href="tasks/{{ i.id }}" class="btn-white">перейти к заказу</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="info_paragraph">
+
+</div>
+{% endblock %}

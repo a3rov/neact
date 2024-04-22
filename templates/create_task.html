@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - создание заказа</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="page_content">
+    <nav class="navbar">
+        <h1>neact</h1>
+        <span class="links_content">
+            <a class="my_profile" href="{{ url_for('profile.load_profile', user_id=current_user.id) }}">{{ current_user.username }}</a>
+        </span>
+    </nav>
+
+    <div class="cont-bg-dark">
+        <p class="bold">Создание заказа</p>
+        <p class="text-small">здесь начинается работа над идеями!</p>
+        <form action="" class="task-form" method="post">
+            {{ form.csrf_token }}
+            {{ form.title(class="input-default", type="title", id="input1", placeholder="Заголовок задания") }}
+            {{ form.description(class="input-default", type="description", id="input2", placeholder="Теперь поподробнее о заказе..") }}
+            {{ form.price(class="input-default", type="price", id="input3", placeholder="Оплата") }}
+            <div class="buttons_form">
+                {{ form.submit(type="submit", class="btn-white") }}
+                <a href="/tasks" class="btn-dark">вернуться</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

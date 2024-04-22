@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - рабочая площадка</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="page_content">
+    <nav class="navbar">
+        <h1>neact</h1>
+        <span class="links_content">
+            <a id="part1" href="/{{ link }}" class="btn-dark">http://</a>
+            <a id="part2" href="/{{ link }}" class="btn-white">neact.ru/</a>
+            <a id="part3" href="/{{ link }}" class="btn-some-green">{{ text }}</a>
+        </span>
+    </nav>
+
+    <div class="content">
+        <div id="content1">
+            <h1>Neact - точка входа в фриланс!</h1>
+            <span>начни, а мы предоставим все нужные условия</span>
+            <a class="btn-white" href="/{{ link }}">старт</a>
+            <img src="/static/img/icon.png" class="absolute_img">
+        </div>
+
+    <span class="index_bottom">
+        neact - площадка для проведения сделок в форме: работа - оплата. В данный момент не функционирует по настоящему. Используется для тестовой презентации продукта, разработанного учеником YandexLMS
+    </span>
+
+</div>
+{% endblock %}

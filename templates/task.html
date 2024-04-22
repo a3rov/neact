@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - {{ task.title }}</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="page_content">
+    <nav class="navbar">
+        <h1>neact</h1>
+        <span class="links_content">
+            <a class="my_profile" href="{{ url_for('profile.load_profile', user_id=current_user.id) }}">{{ current_user.username }}</a>
+        </span>
+    </nav>
+
+    <div class="cont-bg-dark">
+        <div>
+            <a class="btn-dark" href="/tasks">вернуться</a>
+        </div>
+
+        {% if task.status == 'closed' %}
+            <p class="task_status task_title">Заказ #{{ task.unique }} <span class="text-closed">Закрыт</span></p>
+        {% elif task.status == 'finding' %}
+            <p class="task_status task_title">Заказ #{{ task.unique }} <span class="text-open">Поиск исполнителя</span></p>
+        {% elif task.status == 'creating' %}
+            <p class="task_status task_title">Заказ #{{ task.unique }} <span class="text-building">В разработке</span></p>
+        {% endif %}
+
+        <div class="task_content">
+            <div class="task_content_main_line">
+                <div class="task_content_info">
+                    <span class="title_text">{{ task.title }}</span>
+                    <span class="description_text">{{ task.description }}</span>
+                    <span class="date_author">{{ date_ago }} - {{ task.author_username }}</span>
+                </div>
+
+                {% if task.author == current_user.id and feedbacks != [] %}
+                    <p class="bold">Отклики</p>
+                {% endif %}
+                <div class="task_feedbacks">
+                {% if task.author == current_user.id %}
+                    {% for user in feedbacks %}
+                        <span class="feedback_info">
+                            <a href="{{ url_for('profile.load_profile', user_id=user[0]) }}">{{ user[1] }}</a>
+                            <form action="{{ url_for('tasks.set_creator', task_id=task.id, creator_id=user[0]) }}" method="post">
+                                <button class="btn-dark" name="set_creator_user">назначить исполнителем</button>
+                            </form>
+                        </span>
+                    {% endfor %}
+                {% endif %}
+                </div>
+                
+                {% if (task.author == current_user.id or task.creator == current_user.id) and task.status == 'creating' %}
+                    <p class="bold">Чат с {{ person }}</p>
+                    <div class="messages__container">
+                        {% for message in messages %}
+                            {% if message[0] == True %}
+                                <span class="message_block_me">
+                                    <span class="message_me">{{ message[1] }}</span>
+                                    <span class="message_date">{{ message[2] }}</span>
+                                </span>
+                            {% else %}
+                                <span class="message_block_other">
+                                    <span class="message_other">{{ message[1] }}</span>
+                                    <span class="message_date">{{ message[2] }}</span>
+                                </span>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                        <form action="" method="post" class="send_message_container">
+                            <input name="input_message_text" class="input-default type_message">
+                            <button class="btn-some-green" name="send_message">Отправить</button>
+                        </form>
+                {% endif %}
+
+                {% if task.author == current_user.id and task.status == 'closed' %}
+                    <p class="bold">Отзыв</p>
+                    <div class="task_feedbacks">
+                        <form action="{{ url_for('tasks.edit_review', task_id=task.id) }}" method="post" class="review">
+                            {% if review == None %}
+                                <input name="input_message_text" class="input-default type_review" placeholder="Оставьте отзыв">
+                            {% else %}
+                                <input name="input_message_text" class="input-default type_review" placeholder="{{ review.text }}">
+                            {% endif %}
+                            <div class="star-rating">
+                              <div class="star-rating__wrap">
+
+                                  {% if review.rate == 5 %}
+                                      <input class="star-rating__input" id="star-rating-5-checked" type="radio" name="rating" value="5" checked="checked">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5-checked" title="5 out of 5 stars"></label>
+                                  {% else %}
+                                      <input class="star-rating__input" id="star-rating-5" type="radio" name="rating" value="5">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-5" title="5 out of 5 stars"></label>
+                                  {% endif %}
+
+                                  {% if review.rate == 4 %}
+                                      <input class="star-rating__input" id="star-rating-4-checked" type="radio" name="rating" value="4" checked="checked">
+                                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4-checked" title="4 out of 5 stars"></label>
+                                  {% else %}
+                                      <input class="star-rating__input" id="star-rating-4" type="radio" name="rating" value="4">
+                                     <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-4" title="4 out of 5 stars"></label>
+                                  {% endif %}
+
+                                  {% if review.rate == 3 %}
+                                      <input class="star-rating__input" id="star-rating-3-checked" type="radio" name="rating" value="3" checked="checked">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3-checked" title="3 out of 5 stars"></label>
+                                  {% else %}
+                                      <input class="star-rating__input" id="star-rating-3" type="radio" name="rating" value="3">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-3" title="3 out of 5 stars"></label>
+                                  {% endif %}
+
+                                  {% if review.rate == 2 %}
+                                      <input class="star-rating__input" id="star-rating-2-checked" type="radio" name="rating" value="2" checked="checked">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2-checked" title="2 out of 5 stars"></label>
+                                  {% else %}
+                                      <input class="star-rating__input" id="star-rating-2" type="radio" name="rating" value="2">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-2" title="2 out of 5 stars"></label>
+                                  {% endif %}
+
+                                  {% if review.rate == 1 %}
+                                      <input class="star-rating__input" id="star-rating-1-checked" type="radio" name="rating" value="1" checked="checked">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1-checked" title="1 out of 5 stars"></label>
+                                  {% else %}
+                                      <input class="star-rating__input" id="star-rating-1" type="radio" name="rating" value="1">
+                                      <label class="star-rating__ico fa fa-star-o fa-lg" for="star-rating-1" title="1 out of 5 stars"></label>
+                                  {% endif %}
+
+                              </div>
+                            </div>
+                            <button class="btn-some-green" name="add_review">Оставить отзыв</button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+
+
+            <div class="task_content_actions_task">
+                <a class="btn-some-green">{{ task.price }} руб.</a>
+                {% if task.status != 'closed' %}
+                    {% if task.author != current_user.id and task.status == 'finding' %}
+                    <form action="" method="post">
+                            <button name="taketask" type="submit" class="btn-white">откликнуться</button>
+                    </form>
+                    {% elif task.author == current_user.id and task.status == 'creating' %}
+                        <form action="{{ url_for('tasks.approve_task', task_id=task.id) }}" method="post">
+                            <button name="approve_task" type="submit" class="btn-white">подтвердить выполнение</button>
+                        </form>
+                        <form action="{{ url_for('tasks.remove_creator', task_id=task.id) }}" method="post">
+                            <button name="remove_creator" type="submit" class="btn-gray">отказаться от исполнителя</button>
+                        </form>
+                    {% elif task.author == current_user.id and task.status == 'finding' %}
+                        <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" method="post">
+                            <button name="delete_task" type="submit" class="btn-gray">удалить заказ</button>
+                        </form>
+                    {% elif task.creator == current_user.id %}
+                        <form action="{{ url_for('tasks.remove_creator', task_id=task.id) }}" method="post">
+                            <button name="remove_creator" type="submit" class="btn-gray">отказаться от выполнения</button>
+                        </form>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        {% if task.status == 'finding' and task.author == current_user.id %}
+            <div class="interesting-element">
+                <span class="central-text">
+                    На данный момент у Вас нет исполнителей заказа, но вы можете назначить его как только появиться отклик!
+                </span>
+            </div>
+
+        {% elif task.status == 'finding' %}
+            <div class="interesting-element">
+                <span class="central-text">
+                    На данный момент у заказа нет исполнителя. Вы можете стать первым!!
+                </span>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="info_paragraph">
+
+</div>
+{% endblock %}

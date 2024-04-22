@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - Редактирование профиля</title>
+{% endblock %}
+
+
+{% block content %}
+<div class="page_content">
+    <nav class="navbar">
+        <h1>neact</h1>
+        <span class="links_content">
+            <a class="my_profile" href="{{ url_for('profile.load_profile', user_id=current_user.id) }}">{{ current_user.username }}</a>
+        </span>
+    </nav>
+
+    <div class="content">
+        <h1>Редактирование профиля</h1>
+
+        <div class="editprofile">
+            <div class="edit_content">
+                <form action="" method="post">
+                    {{ form.csrf_token }}
+                    <span>Короткое имя</span>
+                    {{ form.username(class="input-default", type="username", value=current_user.username) }}
+                    <span>Описание</span>
+                    {{ form.description(class="input-default", type="description", value=current_user.profile_description) }}
+                    <span>Ссылка на Telegram</span>
+                    {{ form.link(class="input-default", type="link", value=current_user.link) }}
+
+                    {{ form.submit(type="submit", class="btn-white") }}
+                </form>
+
+            <div>
+                <span>Изменение фотографии профиля</span>
+                <form method="POST" enctype="multipart/form-data" role="alert">
+                    <input type="file" name="file" accept="image/*.png" class="btn-dark">
+                    <input type="submit" value="обновить фото" class="btn-white">
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

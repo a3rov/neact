@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Neact - профиль {{ user.username }}</title>
+{% endblock %}
+
+
+{% block content %}
+    <div class="page_content">
+        <nav class="navbar">
+            <h1>neact</h1>
+            <span class="links_content">
+            <a class="my_profile" href="{{ url_for('tasks.load_tasks', user_id=current_user.id) }}">На главную</a>
+        </span>
+        </nav>
+    </div>
+
+    <div class="profile_body">
+        <div id="info_1">
+
+            <div class="profile_image">
+                <img src="/static/img/profile_{{ user.id }}.png" class="profile_effect_photo">
+                <img src="/static/img/profile_{{ user.id }}.png" class="profile_around_photo">
+                <!-- <div class="profile_estimation">
+                    4.9/5.0
+                </div> -->
+            </div>
+
+            <div class="profile_info">
+                <div class="profile_info_text">
+                    <span class="profile_username">{{ user.username }}</span>
+
+                    <span class="profile_username_effect" style="background: url('/static/img/profile_{{ user.id }}.png') center center/cover; color: transparent;
+                    -webkit-background-clip: text;
+                    background-clip: text;
+                    filter: blur(4px);">{{ user.username }}</span>
+
+                    <span class="profile_about">{{ user.profile_description }}</span>
+                    <span class="profile_date">участник с {{ regdate }}</span>
+                </div>
+
+                <a class="link_button" href="https://{{ user.link }}">{{ user.link_type }}</a>
+            </div>
+
+        </div>
+
+        {% if is_author %}
+            <a class="btn-dark" href="{{ url_for('profile.load_edit_profile', user_id=current_user.id) }}">Редактировать профиль</a>
+        {% endif %}
+
+        {% if count_reviews != 0 %}
+            <p class="text-big">Отзывы</p>
+        {% endif %}
+
+        <div class="reviews">
+            {% for review in reviews %}
+            <div class="review">
+                <a class="review_author" >{{ review.author_username }} (оценка: ★{{ review.rate }}.0)</a>
+                <span class="review_text">{{ review.text }}</span>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <div class="info_paragraph">
+
+    </div>
+{% endblock %}
