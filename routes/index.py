@@ -17,6 +17,10 @@ class Anonymous(AnonymousUserMixin):
 @blueprint.route('/')
 @blueprint.route('/index')
 def load_page():
+    """
+    Загрузка основной страницы
+    :return:
+    """
 
     text = 'войти'
     link = 'login'

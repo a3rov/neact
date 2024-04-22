@@ -23,6 +23,10 @@ class LoginForm(FlaskForm):
 
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Загрузка страницы с авторизацией. Также форма для авторизации, проверка данных, которые ввели
+    :return:
+    """
     form = LoginForm()
     if form.validate_on_submit():
         username = request.form.get('username')

@@ -26,6 +26,10 @@ class CreateTaskForm(FlaskForm):
 
 @blueprint.route('/tasks')
 def load_tasks():
+    """
+    Загрузка всех Тасков, которые на данный момент есть и доступны пользователю
+    :return:
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 
@@ -46,7 +50,9 @@ def load_task(task_id):
     Если же это не автор Таска, то пользователю дается возможность оставить отклик, далее, если отклик принят,
     то доступен чат с автором
 
-    :param task_id: получаем ID таска, с которым предстоит работать
+    Также доступен чат, оставление отзыва
+
+    :param task_id: ID Таска
     :return: # возвращаем ответ сайта
     """
 
@@ -117,6 +123,10 @@ def load_task(task_id):
 
 @blueprint.route('/tasks/add', methods=['GET', 'POST'])
 def create_task():
+    """
+    Создание Таска, сохранение в базу данных
+    :return: ID Таска
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 
@@ -149,6 +159,11 @@ def create_task():
 
 @blueprint.route('/tasks/delete/<int:task_id>', methods=['POST'])
 def delete_task(task_id):
+    """
+    Удаление Таска вместе с удалнием из базы данных
+    :param task_id: ID Таска
+    :return:
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 
@@ -169,6 +184,12 @@ def delete_task(task_id):
 
 @blueprint.route('/tasks/set_creator/<int:task_id>/<int:creator_id>', methods=['POST'])
 def set_creator(task_id, creator_id):
+    """
+    Задать Таску нового creator (т.е. новый исполнитель заказа)
+    :param task_id: ID Таска
+    :param creator_id: ID пользователя.
+    :return:
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 
@@ -183,6 +204,11 @@ def set_creator(task_id, creator_id):
 @blueprint.route('/tasks/refuse_task/<int:task_id>', methods=['POST'])
 @blueprint.route('/tasks/change_creator/<int:task_id>', methods=['POST'])
 def remove_creator(task_id):
+    """
+    Убрать у Таска creator'a (т.е. исполнителя)
+    :param task_id: ID Таска
+    :return:
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 
@@ -196,6 +222,11 @@ def remove_creator(task_id):
 
 @blueprint.route('/tasks/approve_task/<int:task_id>', methods=['POST'])
 def approve_task(task_id):
+    """
+    Закрыть Таск в качестве, что он был выполнен
+    :param task_id:
+    :return:
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 
@@ -209,6 +240,11 @@ def approve_task(task_id):
 
 @blueprint.route('/tasks/edit_review/<int:task_id>', methods=['POST'])
 def edit_review(task_id):
+    """
+    Отредактировать/добавить отзыв у исполнителя Таска
+    :param task_id:
+    :return:
+    """
     if not current_user.is_authenticated:
         return redirect('/login')
 

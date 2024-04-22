@@ -27,11 +27,21 @@ class RegisterForm(FlaskForm):
 
 
 def return_with_message(form, text):
+    """
+    Функция для более читабельного вывода
+    :param form: форма
+    :param text: текст ошибки
+    :return:
+    """
     return render_template('register.html', title='Регистрация', form=form, message=text)
 
 
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Загрузка страницы с регистрацией. Проверка веденных данных
+    :return:
+    """
     form = RegisterForm()
     if request.method == 'POST':
         email = request.form.get('email')

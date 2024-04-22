@@ -22,6 +22,11 @@ class ProfileForm(FlaskForm):
 
 @blueprint.route('/profile/<int:user_id>')
 def load_profile(user_id):
+    """
+    Загрузить профиль пользователя с отзывами
+    :param user_id: ID пользователя
+    :return:
+    """
     user = sql_session.query(User).filter(User.id == user_id).first()
 
     is_author = False
@@ -38,6 +43,11 @@ def load_profile(user_id):
 
 @blueprint.route('/profile/edit/<int:user_id>', methods=['POST', 'GET'])
 def load_edit_profile(user_id):
+    """
+    Открытие страницы для редактирования профиля. Также создаются формы, обрабатываются, загружается фотография
+    :param user_id: ID пользователя
+    :return:
+    """
     user = sql_session.query(User).filter(User.id == user_id).first()
     form = ProfileForm()
 
