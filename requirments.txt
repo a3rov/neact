@@ -1,0 +1,8 @@
+- flask
+- flask_login
+- time
+- hashlib
+- flask_wtf
+- wtforms
+- flask_restful
+- sqlalchemy
